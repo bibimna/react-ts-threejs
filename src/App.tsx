@@ -1,8 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+// import { Color } from 'three';
+import { Color } from 'three/src/math/Color'
 
 function App() {
+  console.log('perspectiveCamera', Color);
+
   return (
     <div className="App">
       <header className="App-header">
