@@ -24,7 +24,7 @@ const cameraOptionDefaults = {
 }
 
 export class CameraManager {
-  private camera: Camera | undefined;
+  camera: Camera | undefined;
 
   createCamera(options: CameraOption) {
     options = Object.assign({}, cameraOptionDefaults, options);
@@ -36,8 +36,10 @@ export class CameraManager {
         const aspect = width / height;
         camera = new PerspectiveCamera(viewAngle, aspect, near, far);
         break;
-      default:
+      case CameraType.OrthoGraphic:
         camera = new OrthographicCamera(-width / 2, width / 2, -height / 2, width / 2, near, far);
+        break;
+      default:
         break;
     }
 

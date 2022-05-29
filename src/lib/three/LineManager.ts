@@ -1,6 +1,6 @@
-import {BufferGeometry, Scene} from "three";
+import { BufferGeometry, Scene } from "three";
+import { Geometry } from "three/examples/jsm/deprecated/Geometry";
 import MeshLine from 'meshline';
-import {Geometry} from "three/examples/jsm/deprecated/Geometry";
 
 class LineManager {
   private lineData: Map<string, object> | undefined;

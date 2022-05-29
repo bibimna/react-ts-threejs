@@ -1,28 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-// import { Color } from 'three';
-import { Color } from 'three/src/math/Color'
+import { Dashboards } from './page/Dashboards';
 
 function App() {
-  console.log('perspectiveCamera', Color);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='app'>
+      <div className='container'>
+        <Dashboards />
+      </div>
     </div>
   );
 }

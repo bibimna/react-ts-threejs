@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import { WidgetType } from "../../../../types/widget";
+import {WidgetType} from "../../../../types/widget";
 import {Spinner} from "../../../common/Spinner";
+import Interface3D from "./Interface3D";
 
 interface Props {
   type: WidgetType
@@ -20,6 +21,7 @@ const Container = styled.div`
   }
 
   .widget3DContainer > canvas {
+    height: 1020px;
     position: absolute;
     left: 0;
     top: 0;
@@ -30,22 +32,19 @@ function ThreeWidget({ type }: Props) {
   const [isInit, setIsInit] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const creteWidgetContainer = () => {
-    switch (type) {
-      case WidgetType.EARTH:
+  const container = useRef(null);
 
-    }
-  }
-
-  // 3D 컨테이너 생성
+  // 3D 컨테이너 생성 (설정 완성 전까지 기본 지구본으로 생성)
   useEffect(() => {
-
-  }, [])
+    if(container.current) new Interface3D(container.current, type, {})
+  }, [container.current])
 
   return (
-    <Container>
+    <div className='widget'>
       <Spinner show={loading}/>
-      <div className='widget3DContainer' ref='container' />
-    </Container>
+      <div className='widget_container' ref={container} />
+    </div>
   )
 }
+
+export { ThreeWidget }
