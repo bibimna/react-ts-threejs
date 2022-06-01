@@ -1,4 +1,4 @@
-import {Camera, OrthographicCamera, PerspectiveCamera, Vector3} from "three";
+import { Camera, OrthographicCamera, PerspectiveCamera, Vector3 } from "three";
 
 export enum CameraType {
   Perspective = 'PerspectiveCamera',
@@ -23,8 +23,8 @@ const cameraOptionDefaults = {
 
 }
 
-export class CameraManager {
-  camera: Camera | undefined;
+export default class CameraManager {
+  camera?: Camera;
 
   createCamera(options: CameraOption) {
     options = Object.assign({}, cameraOptionDefaults, options);
@@ -47,7 +47,6 @@ export class CameraManager {
   }
 
   initCamera(position?: Vector3, lookPos?: Vector3) {
-    this.camera?.rotation.set(0,0,0);
     if(position) this.camera?.position.set(position.x, position.y, position.z);
     if(lookPos) this.camera?.lookAt(lookPos);
   }

@@ -2,8 +2,8 @@ import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader";
 
 const loader = new FontLoader();
 class FontManager {
-  public regularFont: Font | undefined;
-  public boldFont: Font | undefined;
+  public regularFont?: Font;
+  public boldFont?: Font;
   public isRegularFontLoaded: boolean;
   public isBoldFontLoaded: boolean;
 
