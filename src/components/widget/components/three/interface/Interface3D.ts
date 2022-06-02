@@ -1,9 +1,9 @@
-import { WidgetType } from "../../../../types/widget";
+import { WidgetType } from "../../../../../types/widget";
 import { AmbientLight, BoxGeometry, Light, Mesh, MeshBasicMaterial, Scene, Vector2, Vector3, WebGLRenderer } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { CameraManager } from "../../../../lib/three";
-import { CameraType } from "../../../../lib/three/CameraManager";
-import Sphere from "./Sphere";
+import { CameraManager } from "../../../../../lib/three";
+import { CameraType } from "../../../../../lib/three/CameraManager";
+import Sphere from "../component/Sphere";
 
 export interface SceneInfo {
   scene?: Scene;
@@ -46,6 +46,7 @@ export default class Interface3D {
 
     this.createScene();
 
+    // 마우스 이벤트 추가 전 주석
     // this.container.addEventListener('mousedown', this.onDocumentMouseDown.bind(this), false);
     // this.container.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), false);
     // this.container.addEventListener('mouseup', this.onDocumentMouseUp.bind(this), false);
@@ -56,6 +57,7 @@ export default class Interface3D {
   createScene() {
     this.sceneInfo = {
       scene: new Scene(),
+      sceneOrtho: new Scene(),
       cameraPer: new CameraManager(),
       renderer: new WebGLRenderer({
         antialias: true,
@@ -63,12 +65,13 @@ export default class Interface3D {
       })
     }
 
-    const { cameraPer, renderer } = this.sceneInfo;
+    const { cameraPer, cameraOrtho, renderer } = this.sceneInfo;
 
     this.createCamera();
     this.setControls();
 
     if(cameraPer?.camera && renderer) this.sceneInfo.controls = new OrbitControls(cameraPer.camera, renderer.domElement);
+    if(cameraOrtho?.camera && renderer) this.sceneInfo.controlsOrtho = new OrbitControls(cameraOrtho.camera, renderer.domElement);
     this.setRenderer();
 
     this.layoutInfo.isRendering = true;
@@ -85,7 +88,7 @@ export default class Interface3D {
 
   // perspective camera 생성 (ortho 는 추후 추가)
   createCamera = () => {
-    const { cameraPer, scene } = this.sceneInfo;
+    const { cameraPer, cameraOrtho, scene, sceneOrtho } = this.sceneInfo;
     const offsetWidth = this.layoutInfo.container?.offsetWidth || 1920;
     const offsetHeight = this.layoutInfo.container?.offsetHeight || 1080;
 
@@ -97,6 +100,15 @@ export default class Interface3D {
 
     cameraPer?.initCamera(new Vector3(0, 0, 200), new Vector3(0, 0, 0));
     if(cameraPer?.camera) scene?.add(cameraPer.camera);
+
+    cameraOrtho?.createCamera({
+      type: CameraType.OrthoGraphic,
+      width: offsetWidth,
+      height: offsetHeight
+    });
+
+    cameraOrtho?.camera?.position.set(0, 0, 20);
+    if(cameraOrtho?.camera) sceneOrtho?.add(cameraOrtho.camera);
   }
 
   // renderer 설정
@@ -116,19 +128,22 @@ export default class Interface3D {
   }
 
   setControls = () => {
-    const { controls } = this.sceneInfo;
+    const { controls, controlsOrtho } = this.sceneInfo;
 
     if(!controls) return;
-
     controls.target = new Vector3(0, 0, 0);
     controls.autoRotate = true;
-
     controls.autoRotateSpeed = 1;
     controls.rotateSpeed = 0.065; // 자동 회전 속도
-
     controls.enableZoom = true;
     controls.enableRotate = true;
     controls.enablePan = false;
+
+    if(!controlsOrtho) return;
+    controlsOrtho.target = new Vector3(0, 0, 0);
+    controlsOrtho.enableZoom = false;
+    controlsOrtho.enableRotate = false;
+    controlsOrtho.enablePan = false;
   }
 
   appendLight = () => {
@@ -166,6 +181,7 @@ export default class Interface3D {
       }, time);
 
       this.sceneInfo.controls?.update();
+      this.sceneInfo.controlsOrtho?.update();
       this.render();
 
     }

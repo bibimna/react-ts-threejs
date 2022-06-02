@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import {WidgetType} from "../../../../types/widget";
-import {Spinner} from "../../../common/Spinner";
-import Interface3D from "./Interface3D";
+import { WidgetType } from "../../../../types/widget";
+import { Spinner } from "../../../common/Spinner";
+import Interface3D from "./interface/Interface3D";
 
 interface Props {
   type: WidgetType

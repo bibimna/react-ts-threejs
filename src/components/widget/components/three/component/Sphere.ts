@@ -1,7 +1,7 @@
-import { LayoutInfo, SceneInfo } from "./Interface3D";
+import { LayoutInfo, SceneInfo } from "../interface/Interface3D";
 import { Tween, removeAll } from "@tweenjs/tween.js";
 import { MeshBasicMaterial, Object3D, BufferGeometry } from "three";
-import { ModelManager, LineManager, ParticleManager } from "../../../../lib/three";
+import { ModelManager, LineManager, ParticleManager } from "../../../../../lib/three";
 
 interface LoadStatus {
   isLoaded: number,
@@ -55,6 +55,7 @@ export default class Sphere {
 
   }
 
+  // 파이그래프 append
   appendPieGraph = () => {
     const width = this.layoutInfo?.container?.offsetWidth || 1920;
     const height = this.layoutInfo?.container?.offsetHeight || 1080;
@@ -76,7 +77,7 @@ export default class Sphere {
 
   }
 
-  // object 종류별 manager 를 통해 append
+  // object 종류성별 manager 를 통해 append
   appendToScene = () => {
 
   }
